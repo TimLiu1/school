@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/controllers/system/auth" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/dustTemplates/system/users" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/lib/branchHelper.js" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/models/UserInfo.js" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/public/images/bin.jpg" charset="GBK" />
+    <file url="PROJECT" charset="UTF-8" />
+  </component>
+</project>

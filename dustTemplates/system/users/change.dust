@@ -1,0 +1,7 @@
+
+<div class="panel panel-primary">
+    <div class="panel-heading">修改用户</div>
+    <div class="panel-body">
+        {>"system.users.edit_change"/}
+    </div>
+</div>

@@ -1,0 +1,140 @@
+
+<div class="panel-group" id="mainContent">
+    <div class="panel panel-default">
+
+        <div id="condition" >
+            <div class="panel-body">
+                <form class="form-inline" role="form" id="queryUserForm" >
+                    <div class="form-group">
+                        <label class="sr-only" for="condition[name]">ID</label>
+                        <input type="text" class="form-control" id="name" name="condition[name]" value="{.name}" placeholder="用户ID">
+                    </div>
+                        <button class="btn btn-default" type="button" id="qryUserBtn">查询</button>
+                        <a href="#" id="tempAC" hidden="true"></a>
+                    <a class="btn btn-primary" style="margin-left: 300px;" id="addNewBtn" href="/system/auth/users/add" >增加用户</a>
+
+                    <input type="hidden" name="_csrf" value="{_csrf}" />
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-primary">
+        <div class="panel-heading">查询结果</div>
+        <table class="table table-hover table-condensed">
+            <thead>
+                <tr>
+                    <th class="col-sm-1">用户ID</th>
+
+                    <th class="col-sm-2">邮箱</th>
+                    <th class="col-sm-1">手机</th>
+                    <th class="col-sm-3">地址</th>
+                    <th class="col-sm-1">类型</th>
+                    <th class="col-sm-1">是否有效</th>
+                    <th class="col-sm-2">操作选项</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                {#UserInfo}
+                <tr>
+                    <td class="col-sm-1">{.name}</td>
+
+                    <td class="col-sm-2">{.email}</td>
+                    <td class="col-sm-2">{.mobile}</td>
+                    {#address}
+                    <td class="col-sm-1">{.value}</td>
+                    {/address}
+                    <td class="col-sm-1">{@baseCode code="{.userType}" base="userType"/}</td>
+                    <td class="col-sm-1">{@baseCode code="{.isValid}" base="valid"/}</td>
+                    <td class="col-md-3">
+                        <div class="btn-group btn-group-sm">
+                            <a class="btn" data-toggle="tooltip" data-placement="left" title="编辑" href="/system/auth/users/{.name}/edit"><i class="icon-edit icon-large"></i></a>
+                            <a class=" btn" href="#" value="{.name}" data-toggle="tooltip" data-placement="right" name="deleteBtn" title="删除"><i class="icon-remove icon-large"></i></a>
+                            <a class="btn" name="resetPwdBtn" value="{.name}" data-toggle="tooltip" data-placement="right" title="重置密码"  href="/system/auth/users/{.name}/resetPwd" ><i class="icon-edit icon-large"></i></a>
+                        </div>
+                    </td>
+                </tr>
+                {/UserInfo}
+
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="container-fluid">
+    <ul class="pagination"></ul>
+</div>
+<script type="text/javascript">
+    $(function(){
+        var options = {
+        currentPage: {page},
+        bootstrapMajorVersion : 3,
+        totalPages: {pageCount},
+        pageUrl : function(type, page, current){
+            var fullName = $('#fullName').val();
+            var name = $('#name').val();
+            return '/system/auth/users?page='+page + '&fullName=' + fullName + '&name=' + name;
+        },
+        itemContainerClass: function (type, page, current) {
+            return (page === current) ? "disabled" : "pointer-cursor";
+        },
+        itemTexts: function (type, page, current) {
+
+            switch (type) {
+                case "first":
+                    return "<<";
+                case "prev":
+                    return "<";
+                case "next":
+                    return ">";
+                case "last":
+                    return ">>";
+                case "page":
+                    return page;
+            }
+        }
+    };
+        $('.pagination').bootstrapPaginator(options);
+        $("#qryUserBtn").click(function() {
+
+            var name = $("#name").val();
+            var str ="/system/auth/users?name="+name ;
+
+            $("#tempAC").attr("href",str);
+            $("#tempAC").click();
+        });
+
+
+
+
+
+
+        $("a[name='deleteBtn']").click(function () {
+            var name = $(this).attr('value');
+            bootbox.confirm("确定删除？", function (result) {
+                if (result) {
+                    $.get("/system/auth/users/" + name + "/delete?" + new Date().getTime(), function
+                            (data, status) {
+                        if (status === 'success') {
+                            var some_html = '<br><div class="alert alert-success fade in">';
+                            some_html += '<label>成功删除</label>';
+                            some_html += '</div>';
+                            var box = bootbox.alert(some_html);
+                            box.on('hidden.bs.modal', function(e) {
+                                renderCurrent();
+                            });
+                        } else {
+                            var some_html = '<br><div class="alert alert-danger fade in">';
+                            some_html += '<label>调用后台出错：' + xhr.statusText + '</label>';
+                            some_html += '</div>';
+                            bootbox.alert(some_html);
+                        }
+                    });
+                }
+            });
+        });
+
+
+    });
+
+
+</script>

@@ -1,0 +1,7 @@
+
+<div class="panel panel-primary">
+  <div class="panel-heading">增加用户</div>
+  <div class="panel-body">
+        {>"system.users.edit"/}
+  </div>
+</div>

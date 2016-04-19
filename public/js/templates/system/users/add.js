@@ -1,0 +1,1 @@
+(function(){dust.register("system.users.add",body_0);function body_0(chk,ctx){return chk.write("<div class=\"panel panel-primary\"><div class=\"panel-heading\">增加用户</div><div class=\"panel-body\">").partial("system.users.edit",ctx,null).write("</div></div>");}return body_0;})();
